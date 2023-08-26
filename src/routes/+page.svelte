@@ -10,6 +10,7 @@
 	} from '../stores';
 	import { get } from 'svelte/store';
 	import { Duration, getSeconds } from '$lib/types/time';
+	import { base } from '$app/paths';
 
 	let status: Status;
 
@@ -136,7 +137,7 @@
 </script>
 
 <div>
-	<a href="/config">config</a>
+	<a href="{base}/config">config</a>
 </div>
 <div>
 	{#if status === 'waiting'}

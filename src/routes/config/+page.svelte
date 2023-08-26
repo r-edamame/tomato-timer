@@ -3,6 +3,7 @@
 	import { workingDuration$, breakDuration$ } from '../../stores';
 	import DurationInput from '../../components/DurationInput.svelte';
 	import type { Config } from '$lib/types/config';
+	import { base } from '$app/paths';
 
 	let workingDuration = get(workingDuration$);
 	let breakDuration = get(breakDuration$);
@@ -21,7 +22,7 @@
 
 <div>
 	<div>
-		<a href="/">戻る</a>
+		<a href="{base}/">戻る</a>
 	</div>
 	<div>
 		<div>作業</div>
