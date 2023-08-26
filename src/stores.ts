@@ -11,3 +11,4 @@ export const bgmInBreak$ = writable<string>('');
 export const currentStatus$ = writable<Status>('waiting');
 
 export const elapsedSeconds$ = writable<number>(0);
+export const totalWorkedTime$ = writable<number>(0);

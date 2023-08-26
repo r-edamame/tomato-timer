@@ -1,11 +1,16 @@
 <script lang="ts">
 	import { Config } from '$lib/types/config';
 	import { onMount } from 'svelte';
-	import { breakDuration$, workingDuration$ } from '../stores';
+	import { breakDuration$, totalWorkedTime$, workingDuration$ } from '../stores';
 
 	let ready = false;
 
 	onMount(() => {
+		const total = localStorage.getItem('totalWorkedTime');
+		if (total !== null) {
+			totalWorkedTime$.set(Number(total));
+		}
+
 		const configJson = localStorage.getItem('config');
 
 		try {
