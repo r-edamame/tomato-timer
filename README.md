@@ -1,3 +1,9 @@
+
+# tomato timer
+一定時間ごとに自動的に休憩を促してくれるタイマー
+
+url: https://r-edamame.github.io/tomato-timer
+
 # create-svelte
 
 Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
