@@ -70,9 +70,9 @@
 	};
 
 	onMount(() => {
-		breakBgm = new Audio('/sounds/break-bgm1.mp3');
+		breakBgm = new Audio(`${base}/sounds/break-bgm1.mp3`);
 		breakBgm.loop = true;
-		tickSound = new Audio('/sounds/tick.mp3');
+		tickSound = new Audio(`${base}/sounds/tick.mp3`);
 		tickSound.volume = 0.2;
 
 		currentStatus$.subscribe((s) => {
