@@ -2,6 +2,7 @@
 	import { Config } from '$lib/types/config';
 	import { onMount } from 'svelte';
 	import { breakDuration$, totalWorkedTime$, workingDuration$ } from '../stores';
+	import Container from '../components/Container.svelte';
 
 	let ready = false;
 
@@ -31,5 +32,16 @@
 </script>
 
 {#if ready}
-	<slot />
+	<Container>
+		<div>
+			<h1>🍅タイマー</h1>
+		</div>
+		<slot />
+	</Container>
 {/if}
+
+<style>
+	h1 {
+		text-align: center;
+	}
+</style>

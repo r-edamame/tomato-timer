@@ -11,6 +11,8 @@
 	import { get } from 'svelte/store';
 	import { Duration, getSeconds } from '$lib/types/time';
 	import { base } from '$app/paths';
+	import Button from '../components/Button.svelte';
+	import Timer from '../components/Timer.svelte';
 
 	let status: Status;
 
@@ -137,31 +139,31 @@
 </script>
 
 <div>
-	<a href="{base}/config">config</a>
-</div>
-<div>
 	{#if status === 'waiting'}
-		<button on:click={startTimer}>start</button>
+		<Button on:click={startTimer}>開始</Button>
 	{:else}
-		<button on:click={stopTimer}>stop</button>
+		<Button on:click={stopTimer}>終了</Button>
 	{/if}
 </div>
-<div>
+<div class="main">
 	{#if status !== 'waiting'}
-		<div>
-			{$currentStatus$}
-		</div>
-		<div>
-			残り {calcRemain(
-				$elapsedSeconds$,
-				status === 'working' ? $workingDuration$ : $breakDuration$
-			)}
-		</div>
+		<Timer
+			{status}
+			elapsed={$elapsedSeconds$}
+			duration={status === 'working' ? $workingDuration$ : $breakDuration$}
+		/>
 	{/if}
 </div>
-<div>
-	<div>総稼働時間</div>
-	<div>
-		{toHMS($totalWorkedTime$)}
-	</div>
+<div class="config">
+	<a href="{base}/config">設定</a>
 </div>
+
+<style>
+	.main {
+		padding: 3rem 0;
+	}
+	.config {
+		text-align: center;
+		font-size: 1.5rem;
+	}
+</style>
