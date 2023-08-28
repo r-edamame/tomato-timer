@@ -107,9 +107,11 @@
 		/>
 	{/if}
 </div>
-<div class="config">
-	<a href="{base}/config">設定</a>
-</div>
+{#if status === 'waiting'}
+	<div class="config">
+		<a href="{base}/config">設定</a>
+	</div>
+{/if}
 
 <style>
 	.main {
