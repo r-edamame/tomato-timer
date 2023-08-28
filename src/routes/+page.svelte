@@ -13,67 +13,15 @@
 	import { base } from '$app/paths';
 	import Button from '../components/Button.svelte';
 	import Timer from '../components/Timer.svelte';
+	import { BgmController } from '$lib/sounds/bgm-controller';
 
 	let status: Status;
 
-	let breakBgm: HTMLAudioElement;
 	let tickSound: HTMLAudioElement;
 
-	const toHMS = (sec: number) => {
-		const h = Math.floor(sec / 60 / 60);
-		const m = Math.floor(sec / 60) % 60;
-		const s = sec % 60;
-
-		const pad = (n: number) => String(n).padStart(2, '0');
-		return `${pad(h)}:${pad(m)}:${pad(s)}`;
-	};
-
-	const calcRemain = (elapsed: number, duration: Duration): string => {
-		const seconds = getSeconds(duration);
-		const remSec = seconds - elapsed;
-
-		return toHMS(remSec);
-	};
-
-	let fadeIntervalId: number | null = null;
-	const fadeIn = (audio: HTMLAudioElement) => {
-		if (fadeIntervalId) {
-			clearInterval(fadeIntervalId);
-		}
-		audio.volume = 0;
-		const intId = setInterval(() => {
-			if (audio.volume < 0.998) {
-				audio.volume += 0.001;
-			}
-		}, 10);
-		setTimeout(() => {
-			clearInterval(intId);
-			fadeIntervalId = null;
-		}, 2000);
-		fadeIntervalId = intId;
-		audio.play();
-	};
-	const fadeOut = (audio: HTMLAudioElement) => {
-		if (fadeIntervalId) {
-			clearInterval(fadeIntervalId);
-		}
-		const intId = setInterval(() => {
-			if (audio.volume > 0.001) {
-				audio.volume -= 0.001;
-			}
-		}, 10);
-		setTimeout(() => {
-			audio.pause();
-			audio.currentTime = 0;
-			fadeIntervalId && clearInterval(fadeIntervalId);
-			fadeIntervalId = null;
-		}, 2000);
-		fadeIntervalId = intId;
-	};
+	const bgm = new BgmController([`${base}/sounds/break-bgm1.mp3`]);
 
 	onMount(() => {
-		breakBgm = new Audio(`${base}/sounds/break-bgm1.mp3`);
-		breakBgm.loop = true;
 		tickSound = new Audio(`${base}/sounds/tick.mp3`);
 		tickSound.volume = 0.2;
 
@@ -82,14 +30,13 @@
 
 			switch (s) {
 				case 'waiting':
-					breakBgm.pause();
-					breakBgm.currentTime = 0;
+					bgm.pause();
 					break;
 				case 'working':
-					fadeOut(breakBgm);
+					bgm.fadeOut(2);
 					break;
 				case 'break':
-					fadeIn(breakBgm);
+					bgm.fadeIn(2);
 					localStorage.setItem('totalWorkedTime', String(get(totalWorkedTime$)));
 					break;
 			}
@@ -130,8 +77,7 @@
 	const stopTimer = () => {
 		currentStatus$.set('waiting');
 
-		breakBgm.pause();
-		breakBgm.currentTime = 0;
+		bgm.pause();
 
 		clearInterval(intervalId);
 		localStorage.setItem('totalWorkedTime', String(get(totalWorkedTime$)));
