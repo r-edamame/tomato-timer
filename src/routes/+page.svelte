@@ -5,6 +5,7 @@
 		breakDuration$,
 		currentStatus$,
 		elapsedSeconds$,
+		soundVolume$,
 		totalWorkedTime$,
 		workingDuration$
 	} from '../stores';
@@ -60,6 +61,12 @@
 						elapsedSeconds$.set(0);
 					}
 			}
+		});
+
+		soundVolume$.subscribe((volume) => {
+			const actual = volume / 100;
+			tickSound.volume = actual;
+			bgm.setVolume(actual);
 		});
 	});
 

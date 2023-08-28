@@ -12,3 +12,5 @@ export const currentStatus$ = writable<Status>('waiting');
 
 export const elapsedSeconds$ = writable<number>(0);
 export const totalWorkedTime$ = writable<number>(0);
+
+export const soundVolume$ = writable<number>(20);

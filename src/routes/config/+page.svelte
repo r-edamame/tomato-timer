@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
-	import { workingDuration$, breakDuration$ } from '../../stores';
+	import { workingDuration$, breakDuration$, soundVolume$, bgmInBreak$ } from '../../stores';
 	import DurationInput from '../../components/DurationInput.svelte';
 	import type { Config } from '$lib/types/config';
 	import { base } from '$app/paths';
@@ -8,6 +8,8 @@
 
 	let workingDuration = get(workingDuration$);
 	let breakDuration = get(breakDuration$);
+
+	let volume = get(soundVolume$);
 
 	const configure = () => {
 		workingDuration$.set(workingDuration);
@@ -32,6 +34,20 @@
 		<div class="config-title">休憩</div>
 		<div>
 			<DurationInput bind:duration={breakDuration} />
+		</div>
+	</div>
+	<div class="config-item">
+		<div>音量</div>
+		<div>
+			<input
+				type="range"
+				min="0"
+				max="100"
+				bind:value={volume}
+				on:input={() => {
+					soundVolume$.set(volume);
+				}}
+			/>
 		</div>
 	</div>
 	<div>
