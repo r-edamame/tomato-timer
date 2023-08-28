@@ -12,6 +12,13 @@ export class BgmController {
 		this.sounds = paths.map((p) => [p, new Audio(p)]);
 		this.selected = this.sounds[0][1];
 		this.fadeIntervalId = null;
+
+		const name = localStorage.getItem('bgm-sound');
+		if (name) {
+			try {
+				this.selectSound(name);
+			} catch (e) {}
+		}
 	}
 
 	get soundNames(): string[] {
@@ -24,7 +31,12 @@ export class BgmController {
 			this.selected.currentTime = 0;
 		}
 
-		const sound = this.sounds.find(([name, audio]) => name === target);
+		const sound = this.sounds.find(([name, audio]) => {
+			const match = name.match(/[^/]+\.mp3$/);
+			if (match && match[0] === target) {
+				return true;
+			}
+		});
 
 		if (!sound) {
 			throw new Error('unknown sound selected');
@@ -51,6 +63,8 @@ export class BgmController {
 				this.selected.pause();
 				this.state = 'paused';
 			}
+		} else if (this.state === 'playing') {
+			this.selected.volume = volume;
 		}
 	}
 
@@ -72,7 +86,6 @@ export class BgmController {
 			}
 
 			if (count++ > seconds * 100) {
-				console.log(this.selected.volume);
 				this.state = 'playing';
 
 				this.fadeIntervalId && clearInterval(this.fadeIntervalId);

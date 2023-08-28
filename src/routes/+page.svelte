@@ -19,10 +19,10 @@
 	let status: Status;
 
 	let tickSound: HTMLAudioElement;
-
-	const bgm = new BgmController([`${base}/sounds/break-bgm1.mp3`]);
+	let bgm: BgmController;
 
 	onMount(() => {
+		bgm = new BgmController([`${base}/sounds/break-bgm1.mp3`, `${base}/sounds/rain.mp3`]);
 		tickSound = new Audio(`${base}/sounds/tick.mp3`);
 		tickSound.volume = 0.2;
 
